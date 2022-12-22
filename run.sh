@@ -3,6 +3,20 @@
 # to stop on first error
 set -e
 
+for o in "$@" 
+do
+    if [ $o == "clear" ]
+    then
+        echo "removing old database..."
+        rm core/store.sqlite3
+
+        echo "creating new database..."
+        flask db upgrade -d core/migrations/
+
+    fi
+done
+
+echo "running server..."
 # Delete older .pyc files
 # find . -type d \( -name env -o -name venv  \) -prune -false -o -name "*.pyc" -exec rm -rf {} \;
 
